@@ -1,0 +1,5 @@
+If you need to add, delte or update the data:
+- Edit the Excel file
+- Export as .csv file
+- Change the ',' to '.' on the .csv file if it is necessary
+- Set the delimiter ';' (sep=';') in JupyterNotebook
