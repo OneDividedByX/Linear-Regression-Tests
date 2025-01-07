@@ -69,21 +69,3 @@ def PrintTable_v2(X,Y,f,l,dec):
     hatY[i]=round(Prediction(X[i],X,Y,f,l),dec)
   return pd.DataFrame({'X':X,'Y':Y,'hat(Y)':hatY,'error':error})
 
-def GetVectorFromIndexes(v,index_vector):
-  n=len(index_vector)
-  vector=np.zeros(n)
-  for i in range(0,n):
-    vector[i]=v[int(index_vector[i])]
-  return vector
-
-def GetVectorComplement(v,index_vector):
-  L=len(v); n=len(index_vector)
-  index_vector_complement=np.zeros(L)
-  for j in range(0,L):
-    index_vector_complement[j]=j
-  for j in range(0,n):
-    index_vector_complement=np.delete(index_vector_complement,np.where(index_vector_complement==index_vector[j]))
-  return index_vector_complement
-
-def SwapVectors(u,v): #Swap vectors
-  aux=u; u=v; v=aux; return u,v

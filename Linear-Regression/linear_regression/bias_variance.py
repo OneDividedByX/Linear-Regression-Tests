@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-
+from miscelaneous.miscelaneous import GaussJordan_Matrix_Inverse, matrix_product_Trace_optimized, get_less_complex_Matrix
 ####################################################
 ####################################################
 # Necessary functions
@@ -21,12 +21,20 @@ def RidgePolynomialBias_Variance(X,sigma,d,theta_ast,l): #(In-Data,related to er
   n=len(X)
   A=PhiPolynomial(X,d)
   hat_sigma=HatSigma(A,n)
+  H=hat_sigma@hat_sigma
   B=hat_sigma+l*np.identity(d+1)
+  # B=GaussJordan_Matrix_Inverse(B)
+  # C=B@B
   C=B@B
+  # C=GaussJordan_Matrix_Inverse(C)
   C=np.linalg.inv(C)
   Bias=(l**2)*(theta_ast@C@hat_sigma@theta_ast)
-  Variance=((sigma**2)/n)*np.trace(hat_sigma@hat_sigma@C)
-  return Bias, Variance
+  # print(f'Matrix inside of trace for variance (d={d})')
+  # print(get_less_complex_Matrix(H@C))
+  Variance=((sigma**2)/n)*matrix_product_Trace_optimized(H,C)
+  # print(f'var={Variance}')
+  # print('')
+  return Bias, Variance #Check this function to correct calculation mistakes cause big numbers involved in matrices
 
 def GraphRidgePolynomialBiasVarianceFromKTo_N(X,sigma,K,N,l): #(In-Data,related to error distribution,pol degree_min, pol degree_max, ridge penalty)
     AxisX=np.linspace(K,N,N-K+1); AxisYBias=np.zeros(N-K+1); AxisYVariance=np.zeros(N-K+1)
